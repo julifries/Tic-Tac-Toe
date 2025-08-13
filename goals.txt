@@ -5,6 +5,10 @@ The goals with the this code is a functional Tic-Tac-Toe game.
 
 STARTER DEMANDS:
     - 3 x 3 grid
+    - MAINLY an actual functional game haha
+
+
+
     - It is going to be terminal-based because it's more convienient for me as a newbie coder.
     - Two players sitting in front of the computer.
     - Anti-cheat (can't place if already a token there)
