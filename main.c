@@ -29,7 +29,6 @@ typedef struct Player
 
 typedef struct Index
 {
-    struct Index *ind_ptr;
     int row;
     int col;
 
@@ -66,44 +65,16 @@ void printPlayfield(Playfield *pf)
 }
 
 // witchcraft method to return two values in one
-Index *getIndexValues(int num)
-{
-    Index *index_ptr = malloc(sizeof(Index)); // memory allocate
-    index_ptr->row = (int)((num-1) / WIDTH);
-    index_ptr->col = (num-1) % WIDTH;
-    return index_ptr;
-}
+
 
 
 //checks if a index given by player is in bounds in our fixed array
 bool checkIndex(int user_index){
     //values 0<user_index<10
-    return user_index>0 &user_index <WIDTH*WIDTH+1;
+    return user_index>0 && user_index <WIDTH*WIDTH+1;
 
 }
 
-
-//changes a tile to a new value
-void changeTile(Playfield *pf, Index *newIndex, char token)
-{
-pf->pf_cells[newIndex->row][newIndex->col]=token;
-
-}
-
-
-
-//checks if a tile is marked or not
-bool checkTile(Playfield *pf,Index *index){
-    return pf->pf_cells[index->row][index->col]=='-';
-    /*
-        if return true:
-            tile not marked - can put token there
-        if return false:
-            tile is marked - cannot put token there
-    
-    */
-
-}
 
 
 
@@ -123,17 +94,12 @@ int main()
     //link player structs to itself
     player1.p_ptr=&player1;
     player2.p_ptr=&player2;
+    Playfield pf;
+
 
     printf("Welcome to Tic Tac Toe in C!");
-
-    Playfield pf;
     resetPlayfield(&pf);
    
-
-    int user_index;
-    char token;
-    int counter=0;
-    Index index;
     
 
 
@@ -141,24 +107,7 @@ int main()
     while (gameIsRunning){
          printPlayfield(&pf);
        
-        if(counter%2==0){
-           currentPlayer.p_ptr=&player1;
-             printf("\nIt is player 1:s turn.");
-        }
-        else{
-            currentPlayer.p_ptr=&player2;
-              printf("\nIt is player 2:s turn.");
-        }
-
-        printf("Input the index you want to put your token in below: ");
-        scanf("%d", &user_index);
-
-        if(checkIndex(user_index)){
-            printf("Index is valid");
-            index.ind_ptr=getIndexValues(user_index);
-          
-         
-        }
+     
 
 
 
