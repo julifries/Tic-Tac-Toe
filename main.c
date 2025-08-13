@@ -5,9 +5,12 @@
 #define WIDTH 3
 
 
-int counter_turns=0;
-int current_player=1;
+
+
+//some global variables
+int counter=0;
 bool gameIsRunning=true;
+//------------------------------
 
 typedef struct Playfield
 {
@@ -45,6 +48,8 @@ void resetPlayfield(Playfield *pf)
     }
 }
 
+
+//prints the playfield, nice formating
 void printPlayfield(Playfield *pf)
 {
 
@@ -84,16 +89,9 @@ pf->pf_cells[newIndex->row][newIndex->col]=token;
 
 }
 
-int playerTurn(int counter_turns){
-    if(counter_turns%2){
-        return 1;
-    }
-    else{
-        return 2;
-    }
-}
 
 
+//checks if a tile is marked or not
 bool checkTile(Playfield *pf,Index *index){
     return pf->pf_cells[index->row][index->col]=='-';
     /*
@@ -110,7 +108,7 @@ bool checkTile(Playfield *pf,Index *index){
 
 
 
-
+//PLS C gods make my code run <33
 
 int main()
 {
@@ -118,11 +116,45 @@ int main()
     //starter things
     Player player1={1,'X',0,NULL};
     Player player2={2,'O',0,NULL};
+    Player currentPlayer;
 
 
     //link player structs to itself
     player1.p_ptr=&player1;
     player2.p_ptr=&player2;
+
+    printf("Welcome to Tic Tac Toe in C!");
+
+    Playfield pf;
+    resetPlayfield(&pf);
+    printPlayfield(&pf);
+
+    int user_index;
+
+
+
+
+    while (gameIsRunning){
+        if(counter%2){
+           currentPlayer.p_ptr=&player1;
+             printf("\nIt is player 1:s turn.");
+        }
+        else{
+            currentPlayer.p_ptr=&player2;
+              printf("\nIt is player 2:s turn.");
+        }
+
+
+      
+
+
+
+
+
+
+
+
+    }
 
 
     
@@ -132,9 +164,7 @@ int main()
 
 
 
-    printf("Welcome to Tic Tac Toe in C!");
-    Playfield pf;
-    resetPlayfield(&pf);
-    printPlayfield(&pf);
+
+
     return 1;
 }
