@@ -8,7 +8,7 @@
 
 
 //some global variables
-int counter=0;
+
 bool gameIsRunning=true;
 //------------------------------
 
@@ -29,7 +29,7 @@ typedef struct Player
 
 typedef struct Index
 {
-    struct Index *i_ptr;
+    struct Index *ind_ptr;
     int row;
     int col;
 
@@ -71,6 +71,7 @@ Index *getIndexValues(int num)
     Index *index_ptr = malloc(sizeof(Index)); // memory allocate
     index_ptr->row = (int)((num-1) / WIDTH);
     index_ptr->col = (num-1) % WIDTH;
+    return index_ptr;
 }
 
 
@@ -127,15 +128,20 @@ int main()
 
     Playfield pf;
     resetPlayfield(&pf);
-    printPlayfield(&pf);
+   
 
     int user_index;
-
+    char token;
+    int counter=0;
+    Index index;
+    
 
 
 
     while (gameIsRunning){
-        if(counter%2){
+         printPlayfield(&pf);
+       
+        if(counter%2==0){
            currentPlayer.p_ptr=&player1;
              printf("\nIt is player 1:s turn.");
         }
@@ -144,9 +150,15 @@ int main()
               printf("\nIt is player 2:s turn.");
         }
 
+        printf("Input the index you want to put your token in below: ");
+        scanf("%d", &user_index);
 
-      
-
+        if(checkIndex(user_index)){
+            printf("Index is valid");
+            index.ind_ptr=getIndexValues(user_index);
+          
+         
+        }
 
 
 
