@@ -4,12 +4,9 @@
 
 #define WIDTH 3
 
+// some global variables
 
-
-
-//some global variables
-
-bool gameIsRunning=true;
+bool gameIsRunning = true;
 //------------------------------
 
 typedef struct Playfield
@@ -46,8 +43,7 @@ void resetPlayfield(Playfield *pf)
     }
 }
 
-
-//prints the playfield, nice formating
+// prints the playfield, nice formating
 void printPlayfield(Playfield *pf)
 {
 
@@ -65,64 +61,49 @@ void printPlayfield(Playfield *pf)
 
 // witchcraft method to return two values in one
 
-
-
-//checks if a index given by player is in bounds in our fixed array
-bool checkIndex(int user_index){
-    return user_index>0 && user_index <WIDTH*WIDTH+1;
-
+// checks if a index given by player is in bounds in the playfield
+bool checkIndex(int user_index)
+{
+    return user_index > 0 && user_index < WIDTH * WIDTH + 1;
 }
 
 
+//calculates new index from userindex
+Index calcIndex(Index currIndex, int numIndex)
+{
+    currIndex.row = (int)(numIndex / WIDTH);
+    currIndex.col = (int)(numIndex % WIDTH);
+    return currIndex;
+}
 
 
+//changes the tile to a new token
+void changeTile(Playfield *pf, Index tileIndex, char token)
+{
+    pf->pf_cells[tileIndex.row][tileIndex.col] = token;
+}
 
-
-//PLS C gods make my code run <33
+// PLS C gods make my code run <33
 
 int main()
 {
 
-    //starter things
-    Player player1={1,'X',0};
-    Player player2={2,'O',0};
+    // starter things
+    Player player1 = {1, 'X', 0};
+    Player player2 = {2, 'O', 0};
     Player currentPlayer;
 
-
-    //link player structs to itself
+    // link player structs to itself
 
     Playfield pf;
 
-
     printf("Welcome to Tic Tac Toe in C!");
     resetPlayfield(&pf);
-   
-    
 
-
-
-    while (gameIsRunning){
-         printPlayfield(&pf);
-       
-     
-
-
-
-
-
-
-
+    while (gameIsRunning)
+    {
+        printPlayfield(&pf);
     }
-
-
-    
-
-
-
-
-
-
-
 
     return 1;
 }
