@@ -24,7 +24,6 @@ typedef struct Player
     int num;
     char token;
     int score;
-    struct Player *p_ptr;
 } Player;
 
 typedef struct Index
@@ -70,7 +69,6 @@ void printPlayfield(Playfield *pf)
 
 //checks if a index given by player is in bounds in our fixed array
 bool checkIndex(int user_index){
-    //values 0<user_index<10
     return user_index>0 && user_index <WIDTH*WIDTH+1;
 
 }
@@ -86,14 +84,13 @@ int main()
 {
 
     //starter things
-    Player player1={1,'X',0,NULL};
-    Player player2={2,'O',0,NULL};
+    Player player1={1,'X',0};
+    Player player2={2,'O',0};
     Player currentPlayer;
 
 
     //link player structs to itself
-    player1.p_ptr=&player1;
-    player2.p_ptr=&player2;
+
     Playfield pf;
 
 
