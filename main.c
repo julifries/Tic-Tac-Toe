@@ -67,8 +67,7 @@ bool checkIndex(int user_index)
     return user_index > 0 && user_index < WIDTH * WIDTH + 1;
 }
 
-
-//calculates new index from userindex
+// calculates new index from userindex
 Index calcIndex(Index currIndex, int numIndex)
 {
     currIndex.row = (int)(numIndex / WIDTH);
@@ -76,11 +75,16 @@ Index calcIndex(Index currIndex, int numIndex)
     return currIndex;
 }
 
-
-//changes the tile to a new token
+// changes the tile to a new token
 void changeTile(Playfield *pf, Index tileIndex, char token)
 {
     pf->pf_cells[tileIndex.row][tileIndex.col] = token;
+}
+
+Player *getNextPlayer(Player *player1, Player *player2, int counter)
+{
+    //if divisable by 2 return player 1, otherwise player2
+    return (counter % 2 == 0) ? player1 : player2;
 }
 
 // PLS C gods make my code run <33
@@ -93,9 +97,8 @@ int main()
     Player player2 = {2, 'O', 0};
     Player currentPlayer;
 
-    // link player structs to itself
-
     Playfield pf;
+    int counter = 0;
 
     printf("Welcome to Tic Tac Toe in C!");
     resetPlayfield(&pf);
