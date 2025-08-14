@@ -62,17 +62,26 @@ void printPlayfield(Playfield *pf)
 // witchcraft method to return two values in one
 
 // checks if a index given by player is in bounds in the playfield
-bool checkIndex(int user_index)
-{
-    return user_index > 0 && user_index < WIDTH * WIDTH + 1;
-}
+
+
 
 // calculates new index from userindex
-Index calcIndex(Index currIndex, int numIndex)
+Index calcIndex(int numIndex)
 {
+    Index currIndex;
     currIndex.row = (int)((numIndex - 1) / WIDTH);
     currIndex.col = (int)((numIndex - 1) % WIDTH);
     return currIndex;
+}
+
+
+
+
+bool checkIndex(Playfield *pf, int user_index)
+{
+Index tmp_index=calcIndex(user_index); //calculate index
+
+return user_index > 0 && user_index < WIDTH * WIDTH + 1&&pf->pf_cells[tmp_index.row][tmp_index.col]=='-';
 }
 
 // changes the tile to a new token
@@ -203,14 +212,14 @@ int main()
         currentPlayer = getNextPlayer(&player1, &player2, counter);
        
         printf("\nIt is player %d:s turn.", currentPlayer->num);
-        printf(" Enter an index between 1-9:");
+        printf("Enter an index you want to mark in the playfield:");
         scanf("%d", &index_1d);
-        if (!checkIndex(index_1d))
+        if (!checkIndex(&pf,index_1d))
         {
-            printf("Enter a valid index between 1-9:");
+            printf("Enter a valid index! You are either trying to cheat or not in bounds.");
             scanf("%d", &index_1d);
         }
-        currIndex = calcIndex(currIndex, index_1d);
+        currIndex = calcIndex(index_1d);
         changeTile(&pf, currIndex, currentPlayer->token);
       
         counter++;
