@@ -4,8 +4,6 @@
 
 #define WIDTH 3
 
-// some global variables
-
 bool gameIsRunning = true;
 //------------------------------
 
@@ -59,13 +57,10 @@ void printPlayfield(Playfield *pf)
     printf("\n");
 }
 
-// witchcraft method to return two values in one
 
 // checks if a index given by player is in bounds in the playfield
 
-
-
-// calculates new index from userindex
+// calculates new index from userindex, can return two indexes
 Index calcIndex(int numIndex)
 {
     Index currIndex;
@@ -74,14 +69,11 @@ Index calcIndex(int numIndex)
     return currIndex;
 }
 
-
-
-
 bool checkIndex(Playfield *pf, int user_index)
 {
-Index tmp_index=calcIndex(user_index); //calculate index
+    Index tmp_index = calcIndex(user_index); // calculate index
 
-return user_index > 0 && user_index < WIDTH * WIDTH + 1&&pf->pf_cells[tmp_index.row][tmp_index.col]=='-';
+    return user_index > 0 && user_index < WIDTH * WIDTH + 1 && pf->pf_cells[tmp_index.row][tmp_index.col] == '-';
 }
 
 // changes the tile to a new token
@@ -131,13 +123,15 @@ bool checkCol(Playfield *pf, char token)
                 break;
             }
         }
-        if (allSame) return true;
+        if (allSame)
+            return true;
     }
     return false;
 }
 
 bool checkDig(Playfield *pf, char token)
 {
+    //ordinary diagonal
     bool allSame = true;
     for (int i = 0; i < WIDTH; i++)
     {
@@ -147,83 +141,90 @@ bool checkDig(Playfield *pf, char token)
             break;
         }
     }
-    if(allSame) return true;
-
-
+    if (allSame)
+        return true;
 
     // anti-diagonal
     allSame = true;
-    for (int i = 0; i < WIDTH; i++) {
-        if (pf->pf_cells[i][WIDTH - 1 - i] != token) {
-            allSame = false;
-            break;
-        }
-    }// anti-diagonal
-    allSame = true;
-    for (int i = 0; i < WIDTH; i++) {
-        if (pf->pf_cells[i][WIDTH - 1 - i] != token) {
+    for (int i = 0; i < WIDTH; i++)
+    {
+        if (pf->pf_cells[i][WIDTH - 1 - i] != token)
+        {
             allSame = false;
             break;
         }
     }
-    if (allSame) return true;
+    if (allSame)
+        return true;
 
     return false;
-    if (allSame) return true;
+    if (allSame)
+        return true;
 
     return false;
-
 }
+
+//check if there is a winner, row-wise, column-wise or diagonal/antidiagonal
 bool isThereAWinner(Playfield *pf, char token)
 {
     return checkRow(pf, token) || checkCol(pf, token) || checkDig(pf, token);
 }
-// PLS C gods make my code run <33
-
-
 
 
 int main()
 {
 
-    // starter things
+    //initilize two players
     Player player1 = {1, 'X', 0};
     Player player2 = {2, 'O', 0};
     Player *currentPlayer = &player1; // a Player pointer, may point to player 1 or player 2
 
-    Playfield pf;
-    int counter = 0;
-    Index currIndex;
-    int index_1d;
+    Playfield pf; //create a playfield struct
+    int counter = 0; //counter to track whose turn it is
+    Index currIndex; //Index to handle 1D -> 2D
+    int index_1d; //index in 1D
     printf("Welcome to Tic Tac Toe in C!");
-    resetPlayfield(&pf);
+    resetPlayfield(&pf); //reset playfield
+    char quit_input; //used for quitting game
 
     while (gameIsRunning)
     {
-         printPlayfield(&pf);
-          if (isThereAWinner(&pf, currentPlayer->token))
+        printPlayfield(&pf); //print playfield
+        //check if there is a winner
+        if (isThereAWinner(&pf, currentPlayer->token))
         {
-            printf("Player %d has won. A new game will start now", currentPlayer->num);
+            printf("Player %d has won. Press Q to quit", currentPlayer->num);
+            scanf("%c", &quit_input);
+            if (quit_input == 'Q')
+            {
+                gameIsRunning == false;
+            }
+            //start a new game and add score to currentPlayer
             resetPlayfield(&pf);
             currentPlayer->score++;
+             //print points
+            printf("\n Player 1 has %d points, Player 2 has %d points",player1.score, player2.score);
         }
 
-
+        //get next player
         currentPlayer = getNextPlayer(&player1, &player2, counter);
-       
+
         printf("\nIt is player %d:s turn.", currentPlayer->num);
         printf("Enter an index you want to mark in the playfield:");
         scanf("%d", &index_1d);
-        if (!checkIndex(&pf,index_1d))
+        //So you cannot cheat
+        if (!checkIndex(&pf, index_1d))
         {
             printf("Enter a valid index! You are either trying to cheat or not in bounds.");
             scanf("%d", &index_1d);
         }
+        //calculate the index
         currIndex = calcIndex(index_1d);
+        //change the tile
         changeTile(&pf, currIndex, currentPlayer->token);
-      
-        counter++;
+
+        counter++; //add counter
     }
 
-    return 1;
+    return 1; //C stuff
 }
