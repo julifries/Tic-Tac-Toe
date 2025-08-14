@@ -70,8 +70,8 @@ bool checkIndex(int user_index)
 // calculates new index from userindex
 Index calcIndex(Index currIndex, int numIndex)
 {
-    currIndex.row = (int)(numIndex / WIDTH);
-    currIndex.col = (int)(numIndex % WIDTH);
+    currIndex.row = (int)((numIndex-1) / WIDTH);
+    currIndex.col = (int)((numIndex-1) % WIDTH);
     return currIndex;
 }
 
@@ -81,7 +81,7 @@ void changeTile(Playfield *pf, Index tileIndex, char token)
     pf->pf_cells[tileIndex.row][tileIndex.col] = token;
 }
 
-Player *getNextPlayer(Player *player1, Player *player2, int counter)
+Player * getNextPlayer(Player *player1, Player *player2, int counter)
 {
     //if divisable by 2 return player 1, otherwise player2
     return (counter % 2 == 0) ? player1 : player2;
@@ -95,17 +95,27 @@ int main()
     // starter things
     Player player1 = {1, 'X', 0};
     Player player2 = {2, 'O', 0};
-    Player currentPlayer;
+    Player * currentPlayer=&player1; //a Player pointer, may point to player 1 or player 2
 
     Playfield pf;
     int counter = 0;
+    Index currIndex;
+    int index_1d;
 
     printf("Welcome to Tic Tac Toe in C!");
     resetPlayfield(&pf);
 
     while (gameIsRunning)
-    {
+    {   currentPlayer=getNextPlayer(&player1,&player2,counter);
         printPlayfield(&pf);
+        printf("It is player %d:s turn.", currentPlayer->num);
+        printf(" Enter an index between 1-9:");
+        scanf("%d", &index_1d);
+        currIndex=calcIndex(currIndex,index_1d);
+        changeTile(&pf,currIndex,currentPlayer->token);
+
+
+        counter++;
     }
 
     return 1;
