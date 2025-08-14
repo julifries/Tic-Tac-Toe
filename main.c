@@ -171,6 +171,9 @@ bool isThereAWinner(Playfield *pf, char token)
 }
 // PLS C gods make my code run <33
 
+
+
+
 int main()
 {
 
@@ -183,28 +186,33 @@ int main()
     int counter = 0;
     Index currIndex;
     int index_1d;
-
     printf("Welcome to Tic Tac Toe in C!");
     resetPlayfield(&pf);
 
     while (gameIsRunning)
     {
+         printPlayfield(&pf);
+          if (isThereAWinner(&pf, currentPlayer->token))
+        {
+            printf("Player %d has won. A new game will start now", currentPlayer->num);
+            resetPlayfield(&pf);
+            currentPlayer->score++;
+        }
+
+
         currentPlayer = getNextPlayer(&player1, &player2, counter);
-        printPlayfield(&pf);
-        printf("It is player %d:s turn.", currentPlayer->num);
+       
+        printf("\nIt is player %d:s turn.", currentPlayer->num);
         printf(" Enter an index between 1-9:");
         scanf("%d", &index_1d);
         if (!checkIndex(index_1d))
         {
-            printf(" Enter a valid index between 1-9:");
+            printf("Enter a valid index between 1-9:");
             scanf("%d", &index_1d);
         }
         currIndex = calcIndex(currIndex, index_1d);
         changeTile(&pf, currIndex, currentPlayer->token);
-        if (isThereAWinner(&pf, currentPlayer->token))
-        {
-            printf("Player %d:s has won.", currentPlayer->num);
-        }
+      
         counter++;
     }
 
