@@ -13,4 +13,4 @@ STARTER DEMANDS:
     - Two players sitting in front of the computer.
     - Anti-cheat (can't place if already a token there)
     - Check if someone wins
-    - Some user friendliness
+    - Some user friendliness (?)
